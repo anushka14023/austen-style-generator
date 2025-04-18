@@ -1,10 +1,19 @@
 import streamlit as st
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
+import os
 
-# Load the fine-tuned model and tokenizer
-model = GPT2LMHeadModel.from_pretrained("fine_tuned_model")
-tokenizer = GPT2Tokenizer.from_pretrained("fine_tuned_model")
+# Path to your local fine-tuned model directory
+model_dir = "fine_tuned_model"
+
+# Check if the model folder exists
+if not os.path.exists(model_dir):
+    st.error(f"🚫 The model directory '{model_dir}' was not found. Make sure it's uploaded along with app.py.")
+    st.stop()
+
+# Load fine-tuned model and tokenizer
+model = GPT2LMHeadModel.from_pretrained(model_dir)
+tokenizer = GPT2Tokenizer.from_pretrained(model_dir)
 
 st.set_page_config(page_title="Jane Austen Style Generator", page_icon="✍️")
 st.title("✍️ Jane Austen Style Generator")
